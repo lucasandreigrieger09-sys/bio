@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>lucasgrieger.com.br — Em manutenção</title>
-<meta name="description" content="Site em manutenção. Em breve estaremos de volta.">
+<title>404 — lucasgrieger.com.br</title>
+<meta name="description" content="Página não encontrada. O site está em construção.">
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,17 +24,45 @@
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     text-align: center;
     padding: 24px;
+    overflow: hidden;
   }
 
   main {
+    position: relative;
     max-width: 640px;
     animation: fade 1.2s ease-out both;
   }
 
+  /* 404 como marca d'água, atrás do conteúdo */
+  .code {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    font-weight: 700;
+    font-size: clamp(8rem, 30vw, 17rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: #fff;
+    opacity: 0.07;
+    user-select: none;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .emoji {
+    font-size: clamp(2rem, 7vw, 2.75rem);
+    line-height: 1;
+    display: block;
+    margin-bottom: 20px;
+    animation: blink 4s ease-in-out 1.2s infinite;
+  }
+
   h1 {
     font-weight: 700;
-    font-size: clamp(1.75rem, 6vw, 3rem);
-    letter-spacing: 0.02em;
+    font-size: clamp(1.5rem, 5.5vw, 2.5rem);
+    letter-spacing: 0.01em;
     line-height: 1.2;
   }
 
@@ -70,16 +98,24 @@
     to   { opacity: 1; transform: none; }
   }
 
+  /* a piscadinha do 👀 */
+  @keyframes blink {
+    0%, 92%, 100% { transform: none; }
+    96%           { transform: scaleY(0.1); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    main { animation: none; }
+    main, .emoji { animation: none; }
   }
 </style>
 </head>
 <body>
   <main>
-    <h1>EU ESTOU ALTERANDO</h1>
+    <div class="code" aria-hidden="true">404</div>
+    <span class="emoji" role="img" aria-label="olhos espiando">👀</span>
+    <h1>Você chegou cedo demais</h1>
     <div class="rule"></div>
-    <p>Estamos trabalhando em algo novo.<br>Em breve o site será lançado.</p>
+    <p>Ainda não tem nada pra ver por aqui,<br>mas obrigado por espiar.</p>
   </main>
   <footer>lucasgrieger.com.br</footer>
 </body>
