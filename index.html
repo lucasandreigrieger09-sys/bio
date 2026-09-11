@@ -17,18 +17,20 @@
     min-height: 100vh;
     min-height: 100dvh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     background: #000;
     color: #fff;
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     text-align: center;
-    padding: 24px;
-    overflow: hidden;
+    padding: 48px 24px;
+    overflow-x: hidden;
   }
 
+  /* as margens auto centralizam o main no espaço livre e somem quando falta espaço */
   main {
     position: relative;
+    margin: auto;
     max-width: 640px;
     animation: fade 1.2s ease-out both;
   }
@@ -36,7 +38,7 @@
   /* 404 como marca d'água, atrás do conteúdo */
   .code {
     position: absolute;
-    top: 50%;
+    top: 42%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: -1;
@@ -81,16 +83,105 @@
     color: #b3b3b3;
   }
 
+  /* ---------- botão ---------- */
+
+  .botao {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 44px;
+    padding: 20px 40px;
+    border: none;
+    border-top: 2px solid #B9FDD0;
+    border-radius: 72px;
+    background: linear-gradient(90deg, #0B8A34 0%, #25D366 50%, #0B8A34 100%);
+    color: #fff;
+    font: inherit;
+    font-size: clamp(0.875rem, 3.2vw, 1rem);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.1px;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+    transition: transform 0.45s ease, box-shadow 0.45s ease;
+    --glow:
+      0 10px 20px 0 rgba(37, 211, 102, 0.40),
+      0 20px 40px 0 rgba(37, 211, 102, 0.30),
+      0 40px 80px 0 rgba(37, 211, 102, 0.20),
+      0 60px 120px 0 rgba(37, 211, 102, 0.10);
+  }
+
+  /* brilho que atravessa o botão */
+  .botao::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 70px;
+    height: 130%;
+    background: linear-gradient(10deg, #fff 12.81%, rgba(209, 234, 217, 0) 106.66%);
+    transform: translateX(-50%) skew(-25deg);
+    filter: blur(3px);
+    pointer-events: none;
+    user-select: none;
+    animation: shinery 5s infinite ease-in-out;
+  }
+
+  /* brilho na aresta de cima, o "gloss" */
+  .botao::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 12px;
+    background: radial-gradient(ellipse at center,
+                rgba(255, 255, 255, 0.9) 0%,
+                rgba(255, 255, 255, 0.15) 45%,
+                rgba(255, 255, 255, 0) 75%);
+    filter: blur(4px);
+    pointer-events: none;
+  }
+
+  .botao .icone {
+    display: inline-flex;
+    width: 17px;
+    height: 17px;
+    transition: transform 0.5s ease;
+  }
+
+  .botao .icone svg { width: 100%; height: 100%; fill: currentColor; }
+
+  .botao:hover,
+  .botao:focus-visible {
+    transform: translateY(-8px);
+    box-shadow: var(--glow);
+  }
+
+  .botao:hover .icone,
+  .botao:focus-visible .icone { transform: translateX(5px) rotate(5deg); }
+
+  .botao:active { opacity: 0.5; }
+
+  .botao:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
+
   footer {
-    position: fixed;
-    bottom: 24px;
-    left: 0;
-    right: 0;
+    flex-shrink: 0;
+    padding-top: 56px;
     font-weight: 500;
     font-size: 0.72rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #4d4d4d;
+    pointer-events: none;
   }
 
   @keyframes fade {
@@ -104,8 +195,18 @@
     96%           { transform: scaleY(0.1); }
   }
 
+  /* A faixa parte de fora da borda esquerda e para fora da direita; o
+     overflow:hidden do botao faz o recorte, entao nao precisa de opacity.
+     Os 120px cobrem a largura da faixa (70px), o que o skew estica e o blur.
+     O trecho parado de 38% a 100% e a pausa entre uma passada e outra. */
+  @keyframes shinery {
+    0%,   8%  { left: -120px; }
+    38%, 100% { left: calc(100% + 120px); }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    main, .emoji { animation: none; }
+    main, .emoji, .botao::before { animation: none !important; }
+    .botao:hover, .botao:focus-visible { transform: none; }
   }
 </style>
 </head>
@@ -116,6 +217,13 @@
     <h1>Você chegou cedo demais</h1>
     <div class="rule"></div>
     <p>Ainda não tem nada pra ver por aqui,<br>mas obrigado por espiar.</p>
+
+    <a class="botao" href="https://wa.me/5555999903075" target="_blank" rel="noopener noreferrer">
+      <span class="icone" aria-hidden="true">
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M505.12019,19.09375c-1.18945-5.53125-6.65819-11-12.207-12.1875C460.716,0,435.507,0,410.40747,0,307.17523,0,245.26909,55.20312,199.05238,128H94.83772c-16.34763.01562-35.55658,11.875-42.88664,26.48438L2.51562,253.29688A28.4,28.4,0,0,0,0,264a24.00867,24.00867,0,0,0,24.00582,24H127.81618l-22.47457,22.46875c-11.36521,11.36133-12.99607,32.25781,0,45.25L156.24582,406.625c11.15623,11.1875,32.15619,13.15625,45.27726,0l22.47457-22.46875V488a24.00867,24.00867,0,0,0,24.00581,24,28.55934,28.55934,0,0,0,10.707-2.51562l98.72834-49.39063c14.62888-7.29687,26.50776-26.5,26.50776-42.85937V312.79688c72.59753-46.3125,128.03493-108.40626,128.03493-211.09376C512.07526,76.5,512.07526,51.29688,505.12019,19.09375ZM384.04033,168A40,40,0,1,1,424.05,128,40.02322,40.02322,0,0,1,384.04033,168Z"/></svg>
+      </span>
+      <span>Chama no WhatsApp</span>
+    </a>
   </main>
   <footer>lucasgrieger.com.br</footer>
 </body>
